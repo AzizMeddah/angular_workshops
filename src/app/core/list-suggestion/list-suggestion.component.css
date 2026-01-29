@@ -12,6 +12,119 @@
   text-align: center;
 }
 
+/* Barre de recherche */
+.search-container {
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 0.75rem 1rem;
+  transition: box-shadow 0.3s ease;
+}
+
+.search-box:focus-within {
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  outline: 2px solid #667eea;
+}
+
+.search-icon {
+  font-size: 1.25rem;
+  margin-right: 0.75rem;
+  color: #6b7280;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  color: #1f2937;
+  background: transparent;
+}
+
+.search-input::placeholder {
+  color: #9ca3af;
+}
+
+.clear-search {
+  background: #fee2e2;
+  border: none;
+  border-radius: 50%;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #dc2626;
+  font-size: 0.75rem;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+}
+
+.clear-search:hover {
+  background: #dc2626;
+  color: white;
+  transform: rotate(90deg);
+}
+
+.search-info {
+  margin-top: 0.75rem;
+  text-align: center;
+}
+
+.results-count {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reset-search-btn {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.reset-search-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.reset-search-btn:active {
+  transform: translateY(0);
+}
+
 /* Section des Favoris */
 .favorites-section {
   background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
@@ -325,6 +438,18 @@
   .title {
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
+  }
+
+  .search-container {
+    margin-bottom: 1.5rem;
+  }
+
+  .search-input {
+    font-size: 0.875rem;
+  }
+
+  .search-icon {
+    font-size: 1rem;
   }
 
   .favorites-section {

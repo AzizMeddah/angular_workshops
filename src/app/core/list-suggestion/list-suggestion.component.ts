@@ -1,16 +1,18 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Suggestion } from '../../models/suggestion';
 
 @Component({
   selector: 'app-list-suggestion',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './list-suggestion.component.html',
   styleUrl: './list-suggestion.component.css'
 })
 export class ListSuggestionComponent {
   favorites: Suggestion[] = [];
+  searchTerm: string = '';
 
   suggestions: Suggestion[] = [
     {
@@ -84,5 +86,22 @@ export class ListSuggestionComponent {
 
   isFavorite(id: number): boolean {
     return this.favorites.some(f => f.id === id);
+  }
+
+  get filteredSuggestions(): Suggestion[] {
+    if (!this.searchTerm.trim()) {
+      return this.suggestions;
+    }
+
+    const searchLower = this.searchTerm.toLowerCase().trim();
+
+    return this.suggestions.filter(suggestion =>
+      suggestion.title.toLowerCase().includes(searchLower) ||
+      suggestion.category.toLowerCase().includes(searchLower)
+    );
+  }
+
+  clearSearch(): void {
+    this.searchTerm = '';
   }
 }

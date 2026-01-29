@@ -17,8 +17,33 @@
 
   <h2 class="title">Liste des Suggestions</h2>
 
+  <!-- Barre de recherche -->
+  <div class="search-container">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Rechercher par titre ou catégorie..."
+        [(ngModel)]="searchTerm"
+      />
+      <button
+        class="clear-search"
+        *ngIf="searchTerm"
+        (click)="clearSearch()"
+        title="Effacer la recherche">
+        ✖
+      </button>
+    </div>
+    <div class="search-info" *ngIf="searchTerm">
+      <span class="results-count">
+        {{ filteredSuggestions.length }} résultat(s) trouvé(s)
+      </span>
+    </div>
+  </div>
+
   <div class="suggestions-grid">
-    <div *ngFor="let suggestion of suggestions" class="suggestion-card">
+    <div *ngFor="let suggestion of filteredSuggestions" class="suggestion-card">
       <div class="card-header">
         <h3 class="suggestion-title">{{ suggestion.title }}</h3>
         <span class="suggestion-status" [ngClass]="'status-' + suggestion.status">
@@ -65,7 +90,12 @@
     </div>
   </div>
 
-  <div *ngIf="suggestions.length === 0" class="no-suggestions">
+  <div *ngIf="filteredSuggestions.length === 0 && searchTerm" class="no-suggestions">
+    <p>🔍 Aucune suggestion ne correspond à votre recherche.</p>
+    <button class="reset-search-btn" (click)="clearSearch()">Réinitialiser la recherche</button>
+  </div>
+
+  <div *ngIf="suggestions.length === 0 && !searchTerm" class="no-suggestions">
     <p>Aucune suggestion disponible pour le moment.</p>
   </div>
 </div>
