@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Suggestion } from '../../models/suggestion';
 
 @Component({
   selector: 'app-list-suggestion',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './list-suggestion.component.html',
   styleUrl: './list-suggestion.component.css'
 })
 export class ListSuggestionComponent {
+  favorites: Suggestion[] = [];
+
   suggestions: Suggestion[] = [
     {
       id: 1,
@@ -47,4 +50,39 @@ export class ListSuggestionComponent {
       nbLikes: 0
     }
   ];
+
+  getStatusLabel(status: string): string {
+    switch (status) {
+      case 'acceptee':
+        return 'Acceptée';
+      case 'refusee':
+        return 'Refusée';
+      case 'en_attente':
+        return 'En attente';
+      default:
+        return status;
+    }
+  }
+
+  likeSuggestion(id: number): void {
+    const suggestion = this.suggestions.find(s => s.id === id);
+    if (suggestion && suggestion.status !== 'refusee') {
+      suggestion.nbLikes++;
+    }
+  }
+
+  toggleFavorite(suggestion: Suggestion): void {
+    const index = this.favorites.findIndex(f => f.id === suggestion.id);
+    if (index === -1) {
+      // Ajouter aux favoris
+      this.favorites.push(suggestion);
+    } else {
+      // Retirer des favoris
+      this.favorites.splice(index, 1);
+    }
+  }
+
+  isFavorite(id: number): boolean {
+    return this.favorites.some(f => f.id === id);
+  }
 }
