@@ -1,0 +1,165 @@
+.users-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.users-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.user-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  padding: 1.5rem;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.user-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.user-avatar {
+  font-size: 3.5rem;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.user-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.user-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  color: #1f2937;
+}
+
+.user-email {
+  color: #6b7280;
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.user-meta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.user-department {
+  color: #666;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.user-role {
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-admin {
+  background-color: #ef4444;
+  color: white;
+}
+
+.badge-manager {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.badge-user {
+  background-color: #10b981;
+  color: white;
+}
+
+.no-users {
+  text-align: center;
+  padding: 3rem;
+  background-color: #f9fafb;
+  border-radius: 12px;
+  color: #6b7280;
+  font-size: 1.125rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .users-container {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .users-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .user-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .user-meta {
+    justify-content: center;
+  }
+}
+
+/* Animation pour l'apparition des cartes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.user-card {
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.user-card:nth-child(1) { animation-delay: 0.1s; }
+.user-card:nth-child(2) { animation-delay: 0.2s; }
+.user-card:nth-child(3) { animation-delay: 0.3s; }
+.user-card:nth-child(4) { animation-delay: 0.4s; }
+.user-card:nth-child(5) { animation-delay: 0.5s; }
+.user-card:nth-child(6) { animation-delay: 0.6s; }
