@@ -81,11 +81,20 @@
             <span class="star-icon">{{ isFavorite(suggestion.id) ? '⭐' : '☆' }}</span>
             <span class="button-text">{{ isFavorite(suggestion.id) ? 'Retirer des favoris' : 'Ajouter aux favoris' }}</span>
           </button>
+
+          <button class="details-button" [routerLink]="[suggestion.id]">
+            <span class="details-icon">🔍</span>
+            <span class="button-text">Details</span>
+          </button>
         </div>
       </div>
 
       <div class="card-footer card-footer-refused" *ngIf="suggestion.status === 'refusee'">
         <p class="refused-message">⚠️ Cette suggestion a été refusée</p>
+        <button class="details-button" [routerLink]="[suggestion.id]">
+          <span class="details-icon">🔍</span>
+          <span class="button-text">Details</span>
+        </button>
       </div>
     </div>
   </div>
