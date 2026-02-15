@@ -4,6 +4,6 @@ export interface Suggestion {
   description: string;
   category: string;
   date: Date;
-  status: 'acceptee' | 'refusee' | 'en_attente';
+  status: string;
   nbLikes: number;
 }
