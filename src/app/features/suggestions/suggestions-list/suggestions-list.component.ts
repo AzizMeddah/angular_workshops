@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -12,14 +12,21 @@ import { SuggestionsService } from '../../../services/suggestions.service';
   templateUrl: './suggestions-list.component.html',
   styleUrl: './suggestions-list.component.css'
 })
-export class SuggestionsListComponent {
+export class SuggestionsListComponent implements OnInit {
   favorites: Suggestion[] = [];
   searchTerm: string = '';
+  suggestions: Suggestion[] = [];
 
   constructor(private suggestionsService: SuggestionsService) {}
 
-  get suggestions(): Suggestion[] {
-    return this.suggestionsService.getSuggestions();
+  ngOnInit(): void {
+    this.loadSuggestions();
+  }
+
+  loadSuggestions(): void {
+    this.suggestionsService.getSuggestionsList().subscribe(data => {
+      this.suggestions = data;
+    });
   }
 
   getStatusLabel(status: string): string {
@@ -38,7 +45,10 @@ export class SuggestionsListComponent {
   likeSuggestion(id: number): void {
     const suggestion = this.suggestions.find(s => s.id === id);
     if (suggestion && suggestion.status !== 'refusee') {
-      suggestion.nbLikes++;
+      const newLikes = suggestion.nbLikes + 1;
+      this.suggestionsService.updateLikes(id, newLikes).subscribe(updated => {
+        suggestion.nbLikes = updated.nbLikes;
+      });
     }
   }
 
@@ -72,5 +82,11 @@ export class SuggestionsListComponent {
 
   clearSearch(): void {
     this.searchTerm = '';
+  }
+
+  deleteSuggestion(id: number): void {
+    this.suggestionsService.deleteSuggestion(id).subscribe(() => {
+      this.loadSuggestions();
+    });
   }
 }

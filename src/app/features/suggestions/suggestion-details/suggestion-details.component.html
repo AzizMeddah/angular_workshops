@@ -41,12 +41,23 @@
           <span class="meta-value">#{{ suggestion.id }}</span>
         </div>
       </div>
+
+      <div class="details-actions">
+        <button class="update-button" (click)="updateSuggestion()">
+          <span class="update-icon">✏️</span>
+          <span>Update</span>
+        </button>
+        <button class="delete-button" (click)="deleteSuggestion()">
+          <span class="delete-icon">🗑️</span>
+          <span>Supprimer</span>
+        </button>
+      </div>
     </div>
   </div>
 
   <!-- Message si suggestion non trouvée -->
   <div *ngIf="!suggestion" class="not-found">
-    <h2>❌ Suggestion non trouvée</h2>
+    <h2>Suggestion non trouvée</h2>
     <p>La suggestion avec l'ID #{{ id }} n'existe pas.</p>
     <a routerLink="/suggestions" class="back-button">Retour à la liste</a>
   </div>

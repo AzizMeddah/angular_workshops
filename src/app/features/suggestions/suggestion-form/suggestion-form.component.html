@@ -46,6 +46,6 @@
     </div>
 
     <!-- Bouton Soumettre -->
-    <button type="submit" class="btn-submit" [disabled]="suggestionForm.invalid">Soumettre</button>
+    <button type="submit" class="btn-submit" [disabled]="suggestionForm.invalid">{{ isEditMode ? 'Save' : 'Soumettre' }}</button>
   </form>
 </div>

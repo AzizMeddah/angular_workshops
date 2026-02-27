@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Suggestion } from '../../../models/suggestion';
 import { SuggestionsService } from '../../../services/suggestions.service';
 
@@ -12,7 +12,7 @@ import { SuggestionsService } from '../../../services/suggestions.service';
   templateUrl: './suggestion-form.component.html',
   styleUrl: './suggestion-form.component.css'
 })
-export class SuggestionFormComponent {
+export class SuggestionFormComponent implements OnInit {
   categories: string[] = [
     'Infrastructure et bâtiments',
     'Technologie et services numériques',
@@ -26,7 +26,9 @@ export class SuggestionFormComponent {
     'Autre'
   ];
 
-  currentDate: string = this.formatDate(new Date());
+  id: number | null = null;
+  isEditMode: boolean = false;
+  suggestion: Suggestion | undefined;
 
   suggestionForm = new FormGroup({
     title: new FormControl('', [
@@ -45,8 +47,26 @@ export class SuggestionFormComponent {
 
   constructor(
     private suggestionsService: SuggestionsService,
-    private router: Router
+    private router: Router,
+    private actR: ActivatedRoute
   ) {}
+
+  ngOnInit(): void {
+    this.id = this.actR.snapshot.params['id'];
+    if (this.id) {
+      this.isEditMode = true;
+      this.suggestionsService.getSuggestionById(this.id).subscribe((data) => {
+        this.suggestion = data;
+        this.suggestionForm.patchValue({
+          title: this.suggestion.title,
+          description: this.suggestion.description,
+          category: this.suggestion.category,
+          date: this.formatDate(new Date(this.suggestion.date)),
+          status: this.suggestion.status
+        });
+      });
+    }
+  }
 
   private formatDate(date: Date): string {
     const day = date.getDate().toString().padStart(2, '0');
@@ -57,18 +77,34 @@ export class SuggestionFormComponent {
 
   onSubmit(): void {
     if (this.suggestionForm.valid) {
-      const newSuggestion: Suggestion = {
-        id: 0, // sera généré par le service
-        title: this.suggestionForm.get('title')?.value || '',
-        description: this.suggestionForm.get('description')?.value || '',
-        category: this.suggestionForm.get('category')?.value || '',
-        date: new Date(),
-        status: 'en_attente',
-        nbLikes: 0
-      };
+      if (this.isEditMode && this.suggestion) {
+        // Mode modification
+        const updatedSuggestion: Suggestion = {
+          ...this.suggestion,
+          title: this.suggestionForm.get('title')?.value || '',
+          description: this.suggestionForm.get('description')?.value || '',
+          category: this.suggestionForm.get('category')?.value || ''
+        };
 
-      this.suggestionsService.addSuggestion(newSuggestion);
-      this.router.navigate(['/suggestions']);
+        this.suggestionsService.updateSuggestion(updatedSuggestion).subscribe(() => {
+          this.router.navigate(['/suggestions']);
+        });
+      } else {
+        // Mode ajout
+        const newSuggestion: Suggestion = {
+          id: 0, // sera généré par le backend
+          title: this.suggestionForm.get('title')?.value || '',
+          description: this.suggestionForm.get('description')?.value || '',
+          category: this.suggestionForm.get('category')?.value || '',
+          date: new Date(),
+          status: 'en_attente',
+          nbLikes: 0
+        };
+
+        this.suggestionsService.addSuggestion(newSuggestion).subscribe(() => {
+          this.router.navigate(['/suggestions']);
+        });
+      }
     }
   }
 

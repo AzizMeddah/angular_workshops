@@ -1,7 +1,7 @@
 <div class="suggestions-container">
   <!-- Section des Favoris -->
   <div class="favorites-section" *ngIf="favorites.length > 0">
-    <h2 class="title favorites-title">⭐ Mes Favoris ({{ favorites.length }})</h2>
+    <h2 class="title favorites-title">Mes Favoris ({{ favorites.length }})</h2>
     <div class="favorites-list">
       <div *ngFor="let favorite of favorites" class="favorite-item">
         <div class="favorite-content">
@@ -9,7 +9,7 @@
           <span class="favorite-category">{{ favorite.category }}</span>
         </div>
         <button class="remove-favorite" (click)="toggleFavorite(favorite)" title="Retirer des favoris">
-          ✖
+          X
         </button>
       </div>
     </div>
@@ -23,7 +23,7 @@
   <!-- Barre de recherche -->
   <div class="search-container">
     <div class="search-box">
-      <span class="search-icon">🔍</span>
+      <span class="search-icon"></span>
       <input
         type="text"
         class="search-input"
@@ -35,7 +35,7 @@
         *ngIf="searchTerm"
         (click)="clearSearch()"
         title="Effacer la recherche">
-        ✖
+        X
       </button>
     </div>
     <div class="search-info" *ngIf="searchTerm">
@@ -72,7 +72,7 @@
       <div class="card-footer" *ngIf="suggestion.status !== 'refusee'">
         <div class="action-buttons">
           <button class="like-button" (click)="likeSuggestion(suggestion.id)">
-            <span class="heart-icon">❤️</span>
+            <span class="heart-icon"></span>
             <span class="button-text">Like</span>
             <span class="likes-count">({{ suggestion.nbLikes }})</span>
           </button>
@@ -81,29 +81,38 @@
             class="favorite-button"
             [ngClass]="{'is-favorite': isFavorite(suggestion.id)}"
             (click)="toggleFavorite(suggestion)">
-            <span class="star-icon">{{ isFavorite(suggestion.id) ? '⭐' : '☆' }}</span>
+            <span class="star-icon">{{ isFavorite(suggestion.id) ? '*' : '' }}</span>
             <span class="button-text">{{ isFavorite(suggestion.id) ? 'Retirer des favoris' : 'Ajouter aux favoris' }}</span>
           </button>
 
           <button class="details-button" [routerLink]="[suggestion.id]">
-            <span class="details-icon">🔍</span>
+            <span class="details-icon"></span>
             <span class="button-text">Details</span>
+          </button>
+
+          <button class="delete-button" (click)="deleteSuggestion(suggestion.id)">
+            <span class="delete-icon"></span>
+            <span class="button-text">Supprimer</span>
           </button>
         </div>
       </div>
 
       <div class="card-footer card-footer-refused" *ngIf="suggestion.status === 'refusee'">
-        <p class="refused-message">⚠️ Cette suggestion a été refusée</p>
+        <p class="refused-message">Cette suggestion a été refusée</p>
         <button class="details-button" [routerLink]="[suggestion.id]">
-          <span class="details-icon">🔍</span>
+          <span class="details-icon"></span>
           <span class="button-text">Details</span>
+        </button>
+        <button class="delete-button" (click)="deleteSuggestion(suggestion.id)">
+          <span class="delete-icon"></span>
+          <span class="button-text">Supprimer</span>
         </button>
       </div>
     </div>
   </div>
 
   <div *ngIf="filteredSuggestions.length === 0 && searchTerm" class="no-suggestions">
-    <p>🔍 Aucune suggestion ne correspond à votre recherche.</p>
+    <p>Aucune suggestion ne correspond à votre recherche.</p>
     <button class="reset-search-btn" (click)="clearSearch()">Réinitialiser la recherche</button>
   </div>
 
